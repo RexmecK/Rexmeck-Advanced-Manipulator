@@ -1,0 +1,10 @@
+{
+  "author" : "RexmecK",
+  "description" : "Note: Currently on Alpha. Features are subject to change or be removed. Bugs should be expected!\n\nAdvanced Manipulator For Builders!\n\nFeatures:\n\n- Resize-able mine area\n- Paint Included\n- Block Picker\n- Filter Mining\n- Eyedropper\n- X/Y Snapping\n\nCraft via Hand with /admin\n\nHow to use:\n\nMining:\n- Primary/Alt Click\n\nPaint:\n- you know\n\nOpen the interface: \n- Shift + Primary Click\n\nX/Y Snapping: \n- While Clicking (Alt/Primary) (must be doing a action first)\n- Hold Shift to activate it\n- Move the Cursor by X or Y to activate the snap.\n- Note: it will deactivate when you stop mining.\n\nBlock Picker:\n- Opens a interface with a list of placeables.\n- Select a block.\n- Press Pick to use the selected block from list.\n\nFilter Mining:\n- It will mine blocks that are selected from the Block picker or Eyedropper.\n\nEyedropper:\n- you know",
+  "friendlyName" : "RexmecK Advanced Manipulator",
+  "link" : "steam://url/CommunityFilePage/1710048726",
+  "name" : "AdvMM",
+  "steamContentId" : "1710048726",
+  "tags" : "In-Game Tools",
+  "version" : "Alpha 1"
+}
