@@ -1,0 +1,200 @@
+{
+	"gui" : {
+	
+		"close" : {
+			"type" : "button",
+			"base" : "/rexManipulator/ui/blockpicker/image/x.png",
+			"hover" : "/rexManipulator/ui/blockpicker/image/x.png",
+			"pressed" : "/rexManipulator/ui/blockpicker/image/x.png",
+			"pressedOffset" : [0, 0],
+			"callback" : "close",
+			"position" : [96, 181],
+			"vAnchor" : "bottom",
+			"hAnchor" : "right",
+			"zlevel" : 99
+		},
+
+		"background" : {
+			"zlevel" : 0,
+			"type" : "background",
+			"fileHeader" : "/rexManipulator/ui/blockpicker/image/header.png",
+			"fileBody" : "/rexManipulator/ui/blockpicker/image/body.png"
+		},
+
+		"h1" : {
+			"vAnchor" : "bottom",
+			"hAnchor" : "left",
+			"zlevel" : 100,
+			"color" : "#343434",
+			"type" : "label",
+			"position" : [2, 182],
+			"value" : ""
+		},
+
+		"bg2" : {
+			"file" : "/rexManipulator/ui/blockpicker/image/bg.png",
+			"vAnchor" : "bottom",
+			"hAnchor" : "left",
+			"zlevel" : 3,
+			"type" : "image",
+			"position" : [0, 0]
+		},
+
+		"headerover" : {
+			"file" : "/rexManipulator/ui/blockpicker/image/header.png",
+			"vAnchor" : "bottom",
+			"hAnchor" : "left",
+			"zlevel" : 3,
+			"type" : "image",
+			"position" : [0, 181]
+		},
+
+		//BASE FINISHED
+
+
+		"objects" : {
+			"buttons" : {
+				"vertical" : {
+					"forward" : {
+						"hover" : "/rexManipulator/ui/blockpicker/image/vScroll/sup.png?brightness=50",
+						"pressed" : "",
+						"base" : "/rexManipulator/ui/blockpicker/image/vScroll/sup.png"
+					},
+					"backward" : {
+						"hover" : "/rexManipulator/ui/blockpicker/image/vScroll/sdown.png?brightness=50",
+						"pressed" : "",
+						"base" : "/rexManipulator/ui/blockpicker/image/vScroll/sdown.png"
+					}
+				},
+				"horizontal" : {
+					"forward" : {
+						"hover" : "/interface/scrollarea/harrow-forwardhover.png",
+						"pressed" : "",
+						"base" : "/interface/scrollarea/harrow-forward.png"
+					},
+					"backward" : {
+						"hover" : "/interface/scrollarea/harrow-backwardhover.png",
+						"pressed" : "",
+						"base" : "/interface/scrollarea/harrow-backward.png"
+					}
+				}
+			},
+			"children" : {
+				"list" : {
+					"schema" : {
+						"listTemplate" : {
+							"icon" : {
+								"file" : "",
+								"zlevel" : 1,
+								"centered" : true,
+								"maxSize" : [16,16],
+								"type" : "image",
+								"position" : [10, 11]
+							},
+							"background" : {
+								"file" : "/rexManipulator/ui/blockpicker/image/listobj.png",
+								"zlevel" : -1,
+								"type" : "image",
+								"position" : [0, 1]
+							},
+							"name" : {
+								"vAnchor" : "mid",
+								"hAnchor" : "left",
+								"type" : "label",
+								"color" : "#ff3c3c",
+								"wrapWidth" : 75,
+								//"fontSize" : 8,
+								"width" : 138,
+								"position" : [21, 10],
+								"value" : "Replace Me"
+							}
+						},
+						"spacing" : [0, 0],
+						"memberSize" : [91, 21],
+						"unselectedBG" : "/rexManipulator/ui/blockpicker/image/listobj.png",
+						"selectedBG" : "/rexManipulator/ui/blockpicker/image/listobj.png?brightness=50"
+					},
+					"type" : "list",
+					"position" : [0, 0],
+					"hAnchor" : "left",
+					"vAnchor" : "top"
+				}
+			},
+			"rect" : [3, 15, 105, 166],
+			"type" : "scrollArea",
+			"zlevel" : 15,
+			"thumbs" : {
+				"vertical" : {
+					"hover" : {
+						"inner" : "/rexManipulator/ui/blockpicker/image/vScroll/scrollmid.png?brightness=50",
+						"begin" : "/rexManipulator/ui/blockpicker/image/vScroll/scrollbottom.png?brightness=50",
+						"end" : "/rexManipulator/ui/blockpicker/image/vScroll/scrolltop.png?brightness=50"
+					},
+					"pressed" : {
+						"inner" : "/rexManipulator/ui/blockpicker/image/vScroll/scrollmid.png?brightness=50",
+						"begin" : "/rexManipulator/ui/blockpicker/image/vScroll/scrollbottom.png?brightness=50",
+						"end" : "/rexManipulator/ui/blockpicker/image/vScroll/scrolltop.png?brightness=50"
+					},
+					"base" : {
+						"inner" : "/rexManipulator/ui/blockpicker/image/vScroll/scrollmid.png",
+						"begin" : "/rexManipulator/ui/blockpicker/image/vScroll/scrollbottom.png",
+						"end" : "/rexManipulator/ui/blockpicker/image/vScroll/scrolltop.png"
+					}
+				},
+				"horizontal" : {
+					"hover" : {
+						"inner" : "/interface/scrollarea/hthumb-innerhover.png",
+						"begin" : "/interface/scrollarea/hthumb-beginhover.png",
+						"end" : "/interface/scrollarea/hthumb-endhover.png"
+					},
+					"pressed" : {
+						"inner" : "/interface/scrollarea/hthumb-innerhover.png",
+						"begin" : "/interface/scrollarea/hthumb-beginhover.png",
+						"end" : "/interface/scrollarea/hthumb-endhover.png"
+					},
+					"base" : {
+						"inner" : "/interface/scrollarea/hthumb-inner.png",
+						"begin" : "/interface/scrollarea/hthumb-begin.png",
+						"end" : "/interface/scrollarea/hthumb-end.png"
+					}
+				}
+			}
+		},
+
+		"pick" : {
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"wrapWidth" : 80,
+			"base" : "/rexManipulator/ui/blockpicker/image/buttonpick.png",
+			"hAnchor" : "left",
+			"vAnchor" : "bottom",
+			"zlevel" : 15,
+			"type" : "button",
+			"position" : [2,2],
+			"caption" : "Pick",
+			"fontColor" : "#ff3c3c",
+			"fontSize" : 8
+		},
+
+		"search" : {
+			"textAlign" : "left",
+			"hAnchor" : "left",
+			"vAnchor" : "bottom",
+			"callback" : "call",
+			"maxWidth" : 99,
+			"zlevel" : 100,
+			"color" : "#ff3c3c",
+			"type" : "textbox",
+			"position" : [4, 169],
+			"value" : ""
+		}
+
+	},
+
+	"scriptWidgetCallbacks" : [
+		"call"
+	],
+
+	"scripts" : ["/rexManipulator/ui/blockpicker/main.lua"],
+	"scriptDelta" : 1
+}

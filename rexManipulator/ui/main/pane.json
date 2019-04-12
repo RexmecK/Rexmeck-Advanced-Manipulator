@@ -1,0 +1,181 @@
+{
+	"gui" : {
+
+		"close" : {
+			"type" : "button",
+			"base" : "/rexManipulator/ui/main/image/x.png",
+			"hover" : "/rexManipulator/ui/main/image/x.png",
+			"pressed" : "/rexManipulator/ui/main/image/x.png",
+			"pressedOffset" : [0, 0],
+			"callback" : "close",
+			"position" : [166, 56],
+			"zlevel" : 99
+		},
+
+		"background" : {
+			"zlevel" : -1,
+			"type" : "background",
+			"fileHeader" : "/rexManipulator/ui/main/image/header.png",
+			"fileBody" : "/rexManipulator/ui/main/image/body.png"
+		},
+
+		"headerover" : {
+			"file" : "/rexManipulator/ui/main/image/header.png",
+			"zlevel" : 1,
+			"type" : "image",
+			"position" : [0, 56]
+		},
+
+		"background1" : {
+			"file" : "/rexManipulator/ui/main/image/bg.png",
+			"zlevel" : 1,
+			"type" : "image",
+			"position" : [0, 0]
+		},
+
+		"h1" : {
+			"zlevel" : 100,
+			"type" : "label",
+			"position" : [3, 56],
+			"value" : "^#343434;Mode: "
+		},
+		
+
+		//selectors
+
+		
+		"selectmine" : {
+			"base" : "/rexManipulator/ui/main/image/mine.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [2,21]
+		},
+		
+		"selectpaint" : {
+			"base" : "/rexManipulator/ui/main/image/paint.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [37,21]
+		},
+
+		"selectplace" : {
+			"base" : "/rexManipulator/ui/main/image/place.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [72,21]
+		},
+		
+		"selectfilter" : {
+			"base" : "/rexManipulator/ui/main/image/filtermine.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [107,21]
+		},
+
+		"selecteyedropper" : {
+			"base" : "/rexManipulator/ui/main/image/eyedropper.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [142,21]
+		},
+
+
+		//
+
+
+		"mine_size" : {
+			"vAnchor" : "bottom",
+			
+			"callback" : "call",
+			"enterKey" : "call",
+			
+			"hAnchor" : "left",
+			"zlevel" : 2,
+			"type" : "textbox",
+			
+			"color" : "#ff3c3c",
+			
+			"regex" : "[0-9]{0,2}",
+			"textAlign" : "center",
+			"maxWidth" : 9,
+			"position" : [11, 7],
+			"fontSize" : 7,
+			"caption" : "1"
+		},
+		
+		"mine+" : {
+			"base" : "/rexManipulator/ui/main/image/right.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [29,2]
+		},
+
+		"mine-" : {
+			"base" : "/rexManipulator/ui/main/image/left.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [2, 2]
+		},
+		
+		
+		"paintcolor" : {
+			"file" : "/rexManipulator/ui/main/image/color.png",
+			"zlevel" : 1,
+			"type" : "image",
+			"position" : [44, 2]
+		},
+
+		"paint+" : {
+			"base" : "/rexManipulator/ui/main/image/right.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [64,2]
+		},
+
+		"paint-" : {
+			"base" : "/rexManipulator/ui/main/image/left.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [37, 2]
+		},
+
+		"placepick" : {
+			"base" : "/rexManipulator/ui/main/image/pickbutton.png",
+			"zlevel" : 2,
+			"type" : "button",
+			"fontColor" : "#ff3c3c",
+			"caption" : "Blocks/Mod/Liquid",
+			"pressedOffset" : [0, -1],
+			"callback" : "call",
+			"position" : [72, 2]
+		}
+		
+		
+
+	},
+
+	"scriptWidgetCallbacks" : [
+		"call"
+	],
+
+	"scripts" : ["/rexManipulator/ui/main/main.lua"],
+	"scriptDelta" : 1
+}
