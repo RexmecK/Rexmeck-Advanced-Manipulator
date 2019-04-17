@@ -31,6 +31,14 @@ function mat4.mult(a,b)
         a[4] * b[4]
     }
 end
+function mat4.div(a,b)
+    return {
+        a[1] , b[1],
+        a[2] , b[2],
+        a[3] , b[3],
+        a[4] , b[4]
+    }
+end
 function mat4.round(a)
     return {
         math.round(a[1]),
@@ -59,6 +67,7 @@ function manipulator:init()
 end
 
 function manipulator:update(dt)
+    self.hue = (math.sin(os.clock() / 2) + 1) * 360
     self:updateFX(dt)
     self:updateBeamingAnimation()
 end
@@ -67,6 +76,15 @@ function manipulator:uninit()
 
 end
 
+manipulator.hue = 0
+function hueColor4(hue)
+	return {
+	    math.floor(((math.sin(math.rad(hue) ) + 1) / 2) * 255),
+	    math.floor(((math.sin(math.rad(hue + 120) ) + 1) / 2) * 255),
+        math.floor(((math.sin(math.rad(hue + 240)    ) + 1) / 2) * 255),
+        255
+	}
+end
 
 --
 
@@ -75,6 +93,7 @@ function manipulator:updateFX(dt)
     local polys = miner:getPoly(aimpos, true)
     local lines = {}
     local beamcolor = miner:getColor()
+    local hueColor = hueColor4(self.hue)
     local beamSecondaryColor = miner:getSecondaryColor()
     local beamStartPart = miner:getBeamPartProperty()
     local beamStartPos = nil
@@ -85,7 +104,7 @@ function manipulator:updateFX(dt)
     table.insert(
         lines, 
         {
-            color               = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+            color               = mat4.min( mat4.round( mat4.mult(hueColor, {1,1,1,0.25}) ), 255),
             forks               = 0,
             minDisplacement     = 0.5,
             displacement        = 0,
@@ -99,7 +118,7 @@ function manipulator:updateFX(dt)
     local snapState = miner:getSnapAxis()
     if snapState == 1 then
         table.insert(lines,{
-                color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+                color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
                 forks                   = 0,
                 minDisplacement         = 0.5,
                 displacement            = 0,
@@ -110,7 +129,7 @@ function manipulator:updateFX(dt)
             }
         )
         table.insert(lines,{
-                color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+                color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
                 forks                   = 0,
                 minDisplacement         = 0.5,
                 displacement            = 0,
@@ -121,7 +140,7 @@ function manipulator:updateFX(dt)
             }
         )
         table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
             forks                   = 0,
             minDisplacement         = 0.5,
             displacement            = 0,
@@ -131,7 +150,7 @@ function manipulator:updateFX(dt)
             worldEndPosition        = vec2.add(polys[3], {1.0  * mineSize[1] + 0.125, 0.0625}),
         })
         table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
             forks                   = 0,
             minDisplacement         = 0.5,
             displacement            = 0,
@@ -142,7 +161,7 @@ function manipulator:updateFX(dt)
         })
     elseif snapState == 2 then
         table.insert(lines,{
-                color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+                color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
                 forks                   = 0,
                 minDisplacement         = 0.5,
                 displacement            = 0,
@@ -153,7 +172,7 @@ function manipulator:updateFX(dt)
             }
         )
         table.insert(lines,{
-                color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+                color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
                 forks                   = 0,
                 minDisplacement         = 0.5,
                 displacement            = 0,
@@ -164,7 +183,7 @@ function manipulator:updateFX(dt)
             }
         )
         table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
             forks                   = 0,
             minDisplacement         = 0.5,
             displacement            = 0,
@@ -174,7 +193,7 @@ function manipulator:updateFX(dt)
             worldEndPosition        = vec2.add(polys[3], {0.0625, 1.0 * mineSize[2] + 0.125}),
         })    
         table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.25})), 255),
+            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
             forks                   = 0,
             minDisplacement         = 0.5,
             displacement            = 0,
@@ -192,7 +211,7 @@ function manipulator:updateFX(dt)
 
     
     table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.5})), 255),
+            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5})), 255),
             forks                   = 0,
             minDisplacement         = 0.5,
             displacement            = 0,
@@ -204,7 +223,7 @@ function manipulator:updateFX(dt)
     )
 
     table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.5})), 255),
+            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5})), 255),
             forks                   = 0,
             minDisplacement         = 0.5,
             displacement            = 0,
@@ -216,7 +235,7 @@ function manipulator:updateFX(dt)
     )
 
     table.insert(lines,{
-        color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.5})), 255),
+        color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5})), 255),
         forks                   = 0,
         minDisplacement         = 0.5,
         displacement            = 0,
@@ -227,7 +246,7 @@ function manipulator:updateFX(dt)
     })
 
     table.insert(lines,{
-        color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,0.5})), 255),
+        color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5})), 255),
         forks                   = 0,
         minDisplacement         = 0.5,
         displacement            = 0,
@@ -242,7 +261,7 @@ function manipulator:updateFX(dt)
         table.insert(
             lines, 
             {
-                color                  = mat4.min( mat4.round(mat4.mult(beamSecondaryColor, {1,1,1,0.5 * miner.beaming})), 255),
+                color                  = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5 * miner.beaming})), 255),
                 forks                  = 0,
                 minDisplacement        = 0.25,
                 displacement           = 1,

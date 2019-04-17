@@ -8,7 +8,7 @@
 		"name" : "broom",
 		"count" : 1,
 		"parameters" : {
-			"thisDirectory" : "/rexManipulator/skins/default_non_hd/", // this file directory
+			"thisDirectory" : "/rexManipulator/skins/rgb_manipulator/", // this file directory
 			"manipulator" : {
 				"beamStart" : ["head", "beamPoint"],
 
@@ -19,7 +19,7 @@
 			},
 
 			//item info
-			"shortdescription"	: "Advanced Manipulator",
+			"shortdescription"	: "Advanced ^red;R^yellow;-^green;G^cyan;-^blue;B^reset; Manipulator",
 			"description"		: "Designed for builders",
 			"tooltipKind"		: "base",
 			"category"			: "Tool",
@@ -60,20 +60,29 @@
 							"properties" : {
 								"zLevel" : 2,
 								"centered" : true,
-								"image" : "<sprite_1>",
 								"offset" : [0.0, 0.0],
 								"beamPoint" : [0.75, 0.0],
 								"transformationGroups" : ["head", "tool", "base"]
+							},
+							"partStates" : {
+								"rgb" : {
+									"on" : {"properties" : {"image" : "<sprite_1>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>"}}
+								}
 							}
 						},
+						
 						"headF" : {
 							"properties" : {
 								"zLevel" : 3,
 								"centered" : true,
 								"fullbright" : true,
-								"image" : "<sprite_2>",
 								"offset" : [0.0, 0.0],
 								"transformationGroups" : ["head", "tool", "base"]
+							},
+							"partStates" : {
+								"rgb" : {
+									"on" : {"properties" : {"image" : "<sprite_2>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>"}}
+								}
 							}
 						},
 
@@ -81,9 +90,13 @@
 							"properties" : {
 								"zLevel" : 4,
 								"centered" : true,
-								"image" : "<sprite_3>",
 								"offset" : [0.0, 0.0],
 								"transformationGroups" : ["top","tool", "base"]
+							},
+							"partStates" : {
+								"rgb" : {
+									"on" : {"properties" : {"image" : "<sprite_3>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>"}}
+								}
 							}
 						},
 
@@ -91,16 +104,27 @@
 							"properties" : {
 								"zLevel" : 4,
 								"centered" : true,
-								"image" : "<sprite_4>",
 								"offset" : [0.0, 0.0],
 								"transformationGroups" : ["bottom","tool", "base"]
+							},
+							"partStates" : {
+								"rgb" : {
+									"on" : {"properties" : {"image" : "<sprite_4>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>"}}
+								}
 							}
 						},
 
 
 						"broom" : {"properties":{"zLevel":0,"centered":false,"image":"/assetmissing.png","offset":[0.0,0.0],"transformationGroups":["broom"]}}
 					},
-					"stateTypes" : {}
+					"stateTypes" : {
+						"rgb" : {
+							"default" : "on",
+							"states" : {
+								"on" : {"frames" : 90,"mode" : "loop", "cycle" : 5.0}
+							}
+						}
+					}
 				},
 				"lights" : {},
 				"particleEmitters" : {},

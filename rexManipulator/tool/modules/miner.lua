@@ -89,6 +89,7 @@ function miner:OnPress(layer)
                 self:placeLiquid(self.aimpos, true, liquidid)
             end
         end
+        self.beaming = lerp(self.beaming, 1, 2)
     elseif mode == 4 then
         local placing = self:getPlacing()
         if placing.type == "material" then
@@ -101,8 +102,11 @@ function miner:OnPress(layer)
             self:filterLiquid(self.aimpos, true, placing.name)
             self.beaming = lerp(self.beaming, 1, 2)
         end
+        
+        self.beaming = lerp(self.beaming, 1, 2)
     elseif mode == 5 then
-        self:eyedrop(self.aimpos,layer)
+        local result = self:eyedrop(self.aimpos,layer)
+        if not result then return end
         self.beaming = lerp(self.beaming, 1, 2)
     end
 end
@@ -192,6 +196,15 @@ function miner:getPlacing(a)
     return self.placing
 end
 
+function miner:getSnapAxis()
+    if self.snap[1] then
+        return 2
+    elseif self.snap[2] then
+        return 1
+    end
+    return false
+end
+
 miner.color = {255,255,255}
 
 function miner:setColor(color)
@@ -199,7 +212,7 @@ function miner:setColor(color)
     if not self.color[4] then self.color[4] = 255 end
 end
 
-function miner:getColor(color)
+function miner:getColor()
     if not self.color[4] then self.color[4] = 255 end
     return self.color
 end
@@ -211,7 +224,7 @@ function miner:setPrimaryColor(color)
     if not self.primaryColor[4] then self.primaryColor[4] = 255 end
 end
 
-function miner:getPrimaryColor(color)
+function miner:getPrimaryColor()
     if not self.primaryColor[4] then self.primaryColor[4] = 255 end
     return self.primaryColor
 end
@@ -223,7 +236,7 @@ function miner:setSecondaryColor(color)
     if not self.secondaryColor[4] then self.secondaryColor[4] = 255 end
 end
 
-function miner:getSecondaryColor(color)
+function miner:getSecondaryColor()
     if not self.secondaryColor[4] then self.secondaryColor[4] = 255 end
     return self.secondaryColor
 end
@@ -233,7 +246,7 @@ miner.beamStart = nil
 function miner:setBeamPartProperty(a)
     self.beamStart = a
 end
-function miner:getBeamPartProperty(a)
+function miner:getBeamPartProperty()
     return self.beamStart
 end
 
@@ -244,8 +257,18 @@ function miner:setSize(size)
     self.size = vec2.max(vec2.round(size), {1,1})
 end
 
-function miner:getSize(size)
+function miner:getSize()
     return self.size
+end
+
+miner.itemDrops = 0
+
+function miner:setItemDrops(a)
+    self.itemDrops = a
+end
+
+function miner:getItemDrops()
+    return self.itemDrops
 end
 
 --for block rounding
@@ -278,9 +301,11 @@ function miner:eyedrop(aimpos,layer)
     local liquid = world.liquidAt(aimpos)
     if mat then
         self:setPlacing({type = "material", name = mat})
+        return true
     elseif liquid and liquid[1] then
         local liquidname = root.liquidName(liquid[1])
         self:setPlacing({type = "liquid", name = liquidname})
+        return true
     end
 end
 
@@ -373,14 +398,17 @@ function miner:mineAt(pos, centered, layer)
     local listpos = jarray()
     for x = 1, self.size[1] do
         for y = 1, self.size[2] do
-            table.insert(listpos, {pos[1] + x,pos[2] + y})
+            local pos = {pos[1] + x,pos[2] + y}
+            if world.material(pos, layer) then
+                table.insert(listpos, pos)
+            end
         end
     end
     self:mine(listpos, layer)
 end
 
-function miner:mine(listpos, layer)
-    world.damageTiles(listpos, layer, {0,0}, "explosive", 10000)
+function miner:mine(listpos, layer, harvestlevel)
+    world.damageTiles(listpos, layer, {0,0}, "explosive", 10000, self:getItemDrops())
 end
 
 addClass("miner")

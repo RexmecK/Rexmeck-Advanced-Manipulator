@@ -161,8 +161,30 @@ function queryTable(tab, func)
     return q
 end
 
+function removePatterns(s)
+    s = s:gsub("%%", "%%")
+    for i,v in pairs({
+        "%.",
+        "%(",
+        "%)",
+        "%+",
+        "%-",
+        "%*",
+        "%?",
+        "%[",
+        "%]",
+        "%^",
+        "%$",
+    }) do
+        s = s:gsub(v,"%"..v)
+    end
+
+    return s
+end
+
 function querySearch(matches)
     objects:clear()
+    matches = removePatterns(matches)
     local listQuery = queryTable(tileList, 
         function(v) 
             if not v.shortdescription or type(v.shortdescription) ~= "string" then return end   

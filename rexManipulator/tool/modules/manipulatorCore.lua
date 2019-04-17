@@ -2,7 +2,7 @@ manipulatorCore = {}
 manipulatorCore.uuid = ""
 manipulatorCore.anibeamed = false
 manipulatorCore.InterfaceCooldown = 0 --prevents duped interface
-
+manipulatorCore.modDirectory = "/rexManipulator/"
 function manipulatorCore:init()
     self.uuid = sb.makeUuid()
     self:setupMessages()
@@ -10,7 +10,7 @@ function manipulatorCore:init()
     self:loadInstanceConfig()
     self:initAim()
     self:receiveInstanceConfigChanges(self.instanceConfig)
-
+    
 
     miner:setBeamPartProperty(self.config.beamStart)
     miner:setPrimaryColor(self.config.primaryColor)
@@ -31,9 +31,25 @@ function manipulatorCore:init()
 
 end
 
+manipulatorCore.cursorMode = 0
+manipulatorCore.cursorModes = {
+    "mining.cursor",
+    "painting.cursor",
+    "placing.cursor",
+    "filtermining.cursor",
+    "eyedropping.cursor",
+}
+
+function manipulatorCore:updateCursor()
+    if self.instanceConfig.mode ~= self.cursorMode then
+        self.cursorMode = self.instanceConfig.mode
+        activeItem.setCursor(self.modDirectory.."cursor/"..(self.cursorModes[self.cursorMode] or "default.cursor"))
+    end
+end
+
 function manipulatorCore:update(dt, fireMode, shift, moves)
     self:updateAim(dt, fireMode, shift, moves)
-
+    self:updateCursor()
 
     self.InterfaceCooldown = math.max(self.InterfaceCooldown - dt, 0)
 
@@ -76,6 +92,7 @@ manipulatorCore.instanceConfig = {
     paint = 2,
     placing = {name = "dirt", type = "material"},
     mode = 1, --mine, color, tile
+    itemDrops = 0
 }
 
 function manipulatorRequire(script) require(pD(script)) end
@@ -113,6 +130,7 @@ function manipulatorCore:receiveInstanceConfigChanges(config) --events
     for i,v in pairs(config) do
         self.instanceConfig[i] = v
         if i == "size" then miner:setSize(v) 
+        elseif i == "itemDrops" then miner:setItemDrops(v)
         elseif i == "paint" then miner:setPaint(v)
         elseif i == "placing" then miner:setPlacing(v)
         elseif i == "mode" then miner:setMode(v) end
@@ -131,7 +149,7 @@ end
 function manipulatorCore:openInterface()
     if self.InterfaceCooldown == 0 then
         self.InterfaceCooldown = 2
-		local ui = root.assetJson("/rexManipulator/ui/main/pane.json")
+		local ui = root.assetJson(self.modDirectory.."ui/main/pane.json")
 		ui.ownerId = activeItem.ownerEntityId()
 		ui.ownerManipulatorUuid = self.uuid
 		ui.ownerManipulatorInstance = self.instanceConfig

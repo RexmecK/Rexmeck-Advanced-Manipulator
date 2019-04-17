@@ -59,9 +59,29 @@ PaintColors = {
     "ffff", --white
 }
 
+ModeButtons = {
+	{"selectmine"          , "/rexManipulator/ui/main/image/mine.png"},
+	{"selectpaint"        , "/rexManipulator/ui/main/image/paint.png"},
+	{"selectplace"         , "/rexManipulator/ui/main/image/place.png"},
+	{"selectfilter"        , "/rexManipulator/ui/main/image/filtermine.png"},
+	{"selecteyedropper"    , "/rexManipulator/ui/main/image/eyedropper.png"},
+}
+
+function updateButtonMode(mode)
+    for i,v in pairs(ModeButtons) do
+        if i == mode then
+            _buttons[v[1]] = v[2].."?replace;ff3c3c=333;343434="..themeColor
+        else
+            _buttons[v[1]] = v[2] 
+        end
+    end
+    setUIColor("")
+end
+
 function updateInfo()
     widget.setText("h1", "^#343434;Mode: "..MMModes[ownerManipulatorInstance.mode])
     widget.setText("mine_size", tostring(ownerManipulatorInstance.size[1]))
+    updateButtonMode(ownerManipulatorInstance.mode)
     widget.setImage("paintcolor", "/rexManipulator/ui/main/image/color.png?setcolor="..PaintColors[ownerManipulatorInstance.paint])
 end
 

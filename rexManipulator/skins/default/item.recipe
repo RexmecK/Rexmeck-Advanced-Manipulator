@@ -13,7 +13,7 @@
 				"beamStart" : ["head", "beamPoint"],
 
 				"primaryColor" : [255,255,255,255],
-				"secondaryColor" : [200,139,40,255],
+				"secondaryColor" : [40,139,255,255],
 				"keyFrames" : "animation.keyframes",
 				"customScript" : "custom.lua"
 			},
