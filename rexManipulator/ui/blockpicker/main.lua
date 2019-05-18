@@ -9,6 +9,7 @@ function widgetCallbacks.pick()
     local sel = objects:getSelected()
     if not sel then return end
     world.sendEntityMessage(ownerId, "advMM.setPlacing", tileList[sel])
+    pane.dismiss()
 end
 
 function call(wid)

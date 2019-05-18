@@ -81,6 +81,7 @@ end
 function updateInfo()
     widget.setText("h1", "^#343434;Mode: "..MMModes[ownerManipulatorInstance.mode])
     widget.setText("mine_size", tostring(ownerManipulatorInstance.size[1]))
+    widget.setText("itemDrops", "Item Drops: "..tostring(tostring(ownerManipulatorInstance.itemDrops) == "true"))
     updateButtonMode(ownerManipulatorInstance.mode)
     widget.setImage("paintcolor", "/rexManipulator/ui/main/image/color.png?setcolor="..PaintColors[ownerManipulatorInstance.paint])
 end
@@ -184,13 +185,16 @@ widgetCallbacks["paint-"] = function()
     MMsetInstance("paint", util.wrap(ownerManipulatorInstance.paint - 1, 1, #PaintColors) )
 end
 
-
 widgetCallbacks["placepick"] = function()
     local ui = root.assetJson("/rexManipulator/ui/blockpicker/pane.json")
     ui.ownerId = ownerId
     ui.ownerManipulatorUuid = ownerManipulatorUuid
     ui.ownerManipulatorInstance = ownerManipulatorInstance
     player.interact("ScriptPane", ui)
+end
+
+widgetCallbacks["itemDrops"] = function()
+    MMsetInstance("itemDrops", not ownerManipulatorInstance.itemDrops )
 end
 
 
@@ -210,6 +214,7 @@ _buttons = {
 	["paint+"] = "/rexManipulator/ui/main/image/right.png",
 	["paint-"] = "/rexManipulator/ui/main/image/left.png",
 	["placepick"] = "/rexManipulator/ui/main/image/pickbutton.png",
+	["itemDrops"] = "/rexManipulator/ui/main/image/pickbutton.png",
 }
 
 _images = {

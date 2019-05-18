@@ -92,7 +92,7 @@ manipulatorCore.instanceConfig = {
     paint = 2,
     placing = {name = "dirt", type = "material"},
     mode = 1, --mine, color, tile
-    itemDrops = 0
+    itemDrops = false
 }
 
 function manipulatorRequire(script) require(pD(script)) end

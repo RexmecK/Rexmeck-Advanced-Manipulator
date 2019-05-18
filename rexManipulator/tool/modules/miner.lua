@@ -268,7 +268,10 @@ function miner:setItemDrops(a)
 end
 
 function miner:getItemDrops()
-    return self.itemDrops
+    if self.itemDrops then
+        return 1
+    end
+    return 0
 end
 
 --for block rounding
