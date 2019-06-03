@@ -1,0 +1,4 @@
+{
+	"beaming" : [{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{"head":{}}},{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{"bottom":{"rotation":15,"position":[-0.1875,0]},"head":{"position":[0.0625,0]},"top":{"rotation":-15,"position":[-0.1875,0]}}}],
+	"unbeaming" : [{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{"bottom":{"rotation":15,"position":[-0.1875,0]},"head":{"position":[0.0625,0]},"top":{"rotation":-15,"position":[-0.1875,0]}}},{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{}}]
+}

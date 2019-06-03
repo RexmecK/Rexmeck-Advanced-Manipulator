@@ -1,8 +1,4 @@
 {
-	//TO REPLACE
-	// rexManipulator << your mod directory
-	// tool << your item in your mod directory
-
 	"input" : [],
 	"output" : {
 		"name" : "broom",
