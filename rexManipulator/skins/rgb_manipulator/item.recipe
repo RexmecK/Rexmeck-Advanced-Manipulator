@@ -35,7 +35,7 @@
 			"price" : 0,
 			"twoHanded" : true,
 			
-			"animationCustom" : {
+			"animation" : {
 				"globalTagDefaults" : {
 					"missing" : "/assetmissing.png",
 					"sprite_0" : "/assetmissing.png",
@@ -112,10 +112,7 @@
 									"on" : {"properties" : {"image" : "<sprite_4>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>?hueshift=<frame>"}}
 								}
 							}
-						},
-
-
-						"broom" : {"properties":{"zLevel":0,"centered":false,"image":"/assetmissing.png","offset":[0.0,0.0],"transformationGroups":["broom"]}}
+						}
 					},
 					"stateTypes" : {
 						"rgb" : {
@@ -136,7 +133,6 @@
 					"bottom":{},
 					"top":{},
 					"tool":{"interpolated":false},
-					"broom":{"transform":{}},
 					"head":{"interpolated":false},
 					"base":{"interpolated":false}
 				}

@@ -34,8 +34,10 @@ function transforms:loadTransforms()
 		local configanimation = config.getParameter("animation")
 		local animations = {}
 		
-		if configanimation then
+		if type(configanimation) == "string" then
 			animations = root.assetJson(itemDir(configanimation), {})
+		else
+			animations = configanimation
 		end
 		local animationCustom = config.getParameter("animationCustom", {})
 		local animationTranformationGroup = sb.jsonMerge(animationCustom, animations).transformationGroups or {} 

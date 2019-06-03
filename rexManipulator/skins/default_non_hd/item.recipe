@@ -35,7 +35,7 @@
 			"price" : 0,
 			"twoHanded" : true,
 			
-			"animationCustom" : {
+			"animation" : {
 				"globalTagDefaults" : {
 					"missing" : "/assetmissing.png",
 					"sprite_0" : "/assetmissing.png",
@@ -95,24 +95,19 @@
 								"offset" : [0.0, 0.0],
 								"transformationGroups" : ["bottom","tool", "base"]
 							}
-						},
-
-
-						"broom" : {"properties":{"zLevel":0,"centered":false,"image":"/assetmissing.png","offset":[0.0,0.0],"transformationGroups":["broom"]}}
+						}
 					},
 					"stateTypes" : {}
 				},
 				"lights" : {},
 				"particleEmitters" : {},
 				"sounds" : {
-					"sound1"	: {"pitchMultiplier" : 1,"volume" : 1, "pool" : ["/sfx/gun/ar1.ogg"]},
-					"sweep"		: ["/sfx/melee/broom_sweep.ogg"]
+					"sound1"	: {"pitchMultiplier" : 1,"volume" : 1, "pool" : ["/sfx/gun/ar1.ogg"]}
 				},
 				"transformationGroups" : {
 					"bottom":{},
 					"top":{},
 					"tool":{"interpolated":false},
-					"broom":{"transform":{}},
 					"head":{"interpolated":false},
 					"base":{"interpolated":false}
 				}

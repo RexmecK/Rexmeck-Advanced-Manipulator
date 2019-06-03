@@ -1,4 +1,4 @@
 {
 	"beaming" : [{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{}},{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{"bottom":{"position":[0,-0.25]},"broom":{"position":[0,-0.25]},"head":{"position":[0.375,0]},"top":{"position":[0,0.25]}}}],
-    "unbeaming" : [{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{"bottom":{"position":[0,-0.25]},"broom":{"position":[0,-0.25]},"head":{"position":[0.375,0]},"top":{"position":[0,0.25]}}},{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{}}]
+	"unbeaming" : [{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{"bottom":{"position":[0,-0.25]},"broom":{"position":[0,-0.25]},"head":{"position":[0.375,0]},"top":{"position":[0,0.25]}}},{"lights":{},"burstParticle":[],"animationState":{},"fireEvents":[],"wait":0.1,"playSounds":[],"transforms":{}}]
 }

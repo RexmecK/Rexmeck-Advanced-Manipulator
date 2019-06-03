@@ -5,71 +5,71 @@ manipulatorRequire("sprites.lua")
 --
 
 function math.round(x)
-    if x%2 ~= 0.5 then
-      return math.floor(x+0.5)
-    end
-    return x-0.5
+	if x%2 ~= 0.5 then
+	  return math.floor(x+0.5)
+	end
+	return x-0.5
 end
 
 require "/scripts/vec2.lua"
 
 function vec2.round(vector)
-    return { math.round(vector[1]), math.round(vector[2]) }
+	return { math.round(vector[1]), math.round(vector[2]) }
 end
 
 function vec2.max(vector, max)
-    return { math.max(vector[1], max[1]), math.max(vector[2],max[2]) }
+	return { math.max(vector[1], max[1]), math.max(vector[2],max[2]) }
 end
 
 
 if not mat4 then mat4 = {} end
 function mat4.mult(a,b)
-    return {
-        a[1] * b[1],
-        a[2] * b[2],
-        a[3] * b[3],
-        a[4] * b[4]
-    }
+	return {
+		a[1] * b[1],
+		a[2] * b[2],
+		a[3] * b[3],
+		a[4] * b[4]
+	}
 end
 function mat4.div(a,b)
-    return {
-        a[1] , b[1],
-        a[2] , b[2],
-        a[3] , b[3],
-        a[4] , b[4]
-    }
+	return {
+		a[1] , b[1],
+		a[2] , b[2],
+		a[3] , b[3],
+		a[4] , b[4]
+	}
 end
 function mat4.round(a)
-    return {
-        math.round(a[1]),
-        math.round(a[2]),
-        math.round(a[3]),
-        math.round(a[4])
-    }
+	return {
+		math.round(a[1]),
+		math.round(a[2]),
+		math.round(a[3]),
+		math.round(a[4])
+	}
 end
 
 function mat4.min(a, b)
-    if type(b) == "number" then b = {b,b,b,b} end
-    return {
-        math.min(a[1], b[1]),
-        math.min(a[2], b[2]),
-        math.min(a[3], b[3]),
-        math.min(a[4], b[4])
-    }
+	if type(b) == "number" then b = {b,b,b,b} end
+	return {
+		math.min(a[1], b[1]),
+		math.min(a[2], b[2]),
+		math.min(a[3], b[3]),
+		math.min(a[4], b[4])
+	}
 end
 
 
 --probably for fx purposes
 
 function manipulator:init()
-    self.config = config.getParameter("manipulator", {})
-    animation:addKeyFrames(self.config["keyFrames"] or {})
+	self.config = config.getParameter("manipulator", {})
+	animation:addKeyFrames(self.config["keyFrames"] or {})
 end
 
 function manipulator:update(dt)
-    self.hue = (math.sin(os.clock() / 2) + 1) * 360
-    self:updateFX(dt)
-    self:updateBeamingAnimation()
+	self.hue = (math.sin(os.clock() / 2) + 1) * 360
+	self:updateFX(dt)
+	self:updateBeamingAnimation()
 end
 
 function manipulator:uninit()
@@ -79,228 +79,64 @@ end
 manipulator.hue = 0
 function hueColor4(hue)
 	return {
-	    math.floor(((math.sin(math.rad(hue) ) + 1) / 2) * 255),
-	    math.floor(((math.sin(math.rad(hue + 120) ) + 1) / 2) * 255),
-        math.floor(((math.sin(math.rad(hue + 240)    ) + 1) / 2) * 255),
-        255
+		math.floor(((math.sin(math.rad(hue) ) + 1) / 2) * 255),
+		math.floor(((math.sin(math.rad(hue + 120) ) + 1) / 2) * 255),
+		math.floor(((math.sin(math.rad(hue + 240)    ) + 1) / 2) * 255),
+		255
 	}
 end
 
 --
 
 function manipulator:updateFX(dt)
-    local aimpos = miner.aimpos
-    local polys = miner:getPoly(aimpos, true)
-    local lines = {}
-    local beamcolor = miner:getColor()
-    local hueColor = hueColor4(self.hue)
-    local beamSecondaryColor = miner:getSecondaryColor()
-    local beamStartPart = miner:getBeamPartProperty()
-    local beamStartPos = nil
-    local mineSize = miner:getSize()
-    if not beamStartPart then beamStartPos = {0,0} end
+	local aimpos = miner.aimpos
+	local polys = miner:getPoly(aimpos, true)
+	local lines = {}
+	local beamcolor = miner:getColor()
+	local hueColor = hueColor4(self.hue)
+	local beamSecondaryColor = miner:getSecondaryColor()
+	local beamStartPart = miner:getBeamPartProperty()
+	local beamStartPos = nil
+	local mineSize = miner:getSize()
+	if not beamStartPart then beamStartPos = {0,0} end
 
-    --inside
-    table.insert(
-        lines, 
-        {
-            color               = mat4.min( mat4.round( mat4.mult(hueColor, {1,1,1,0.25}) ), 255),
-            forks               = 0,
-            minDisplacement     = 0.5,
-            displacement        = 0,
-            width               = (polys[4][2] - polys[1][2]) * 8,
-            forkAngleRange      = 0,
-            worldStartPosition  = {polys[1][1], polys[1][2] + ((polys[4][2] - polys[1][2]) / 2)},
-            worldEndPosition    = {polys[2][1], polys[2][2] + ((polys[4][2] - polys[1][2]) / 2)},
-        }
-    )
+	if miner.mode ~= 2 then
+		miner:setColor( 
+			mat4.min(mat4.round(mat4.mult(hueColor, {1,1,1,1})), 255)
+		)
+	end
 
-    local snapState = miner:getSnapAxis()
-    if snapState == 1 then
-        table.insert(lines,{
-                color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
-                forks                   = 0,
-                minDisplacement         = 0.5,
-                displacement            = 0,
-                width                   = 1,
-                forkAngleRange          = 0,
-                worldStartPosition      = vec2.add(polys[1], {-0.125, -0.0625}),
-                worldEndPosition        = vec2.add(polys[1], {-1.0 * mineSize[1] - 0.125, -0.0625}),
-            }
-        )
-        table.insert(lines,{
-                color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
-                forks                   = 0,
-                minDisplacement         = 0.5,
-                displacement            = 0,
-                width                   = 1,
-                forkAngleRange          = 0,
-                worldStartPosition      = vec2.add(polys[2], {0.125, -0.0625}),
-                worldEndPosition        = vec2.add(polys[2], {1.0 * mineSize[1] + 0.125, -0.0625}),
-            }
-        )
-        table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
-            forks                   = 0,
-            minDisplacement         = 0.5,
-            displacement            = 0,
-            width                   = 1,
-            forkAngleRange          = 0,
-            worldStartPosition      = vec2.add(polys[3], {0.125, 0.0625}),
-            worldEndPosition        = vec2.add(polys[3], {1.0  * mineSize[1] + 0.125, 0.0625}),
-        })
-        table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
-            forks                   = 0,
-            minDisplacement         = 0.5,
-            displacement            = 0,
-            width                   = 1,
-            forkAngleRange          = 0,
-            worldStartPosition      = vec2.add(polys[4], {-0.125, 0.0625}),
-            worldEndPosition        = vec2.add(polys[4], {-1.0  * mineSize[1] - 0.125, 0.0625}),
-        })
-    elseif snapState == 2 then
-        table.insert(lines,{
-                color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
-                forks                   = 0,
-                minDisplacement         = 0.5,
-                displacement            = 0,
-                width                   = 1,
-                forkAngleRange          = 0,
-                worldStartPosition      = vec2.add(polys[1], {-0.0625, -0.125}),
-                worldEndPosition        = vec2.add(polys[1], {-0.0625, -1.0 * mineSize[2] -0.125}),
-            }
-        )
-        table.insert(lines,{
-                color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
-                forks                   = 0,
-                minDisplacement         = 0.5,
-                displacement            = 0,
-                width                   = 1,
-                forkAngleRange          = 0,
-                worldStartPosition      = vec2.add(polys[2], {0.0625, -0.125}),
-                worldEndPosition        = vec2.add(polys[2], {0.0625, -1.0 * mineSize[2] -0.125}),
-            }
-        )
-        table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
-            forks                   = 0,
-            minDisplacement         = 0.5,
-            displacement            = 0,
-            width                   = 1,
-            forkAngleRange          = 0,
-            worldStartPosition      = vec2.add(polys[3], {0.0625, 0.125}),
-            worldEndPosition        = vec2.add(polys[3], {0.0625, 1.0 * mineSize[2] + 0.125}),
-        })    
-        table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.25})), 255),
-            forks                   = 0,
-            minDisplacement         = 0.5,
-            displacement            = 0,
-            width                   = 1,
-            forkAngleRange          = 0,
-            worldStartPosition      = vec2.add(polys[4], {-0.0625, 0.125}),
-            worldEndPosition        = vec2.add(polys[4], {-0.0625, 1.0 * mineSize[2] + 0.125}),
-        })
-    end
+	-- lightning beam
+	if math.floor(miner.beaming * 10) / 10 > 0 then
+		table.insert(
+			lines, 
+			{
+				color                  = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5 * miner.beaming})), 255),
+				forks                  = 0,
+				minDisplacement        = 0.25,
+				displacement           = 1,
+				width                  = 1,
+				forkAngleRange         = 0,
+				partStartPosition      = beamStartPart,
+				itemStartPosition      = beamStartPos,
+				worldEndPosition       = aimpos,
+			}
+		)
+	end
 
-
-
-
-    --convert poly to lines
-
-    
-    table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5})), 255),
-            forks                   = 0,
-            minDisplacement         = 0.5,
-            displacement            = 0,
-            width                   = 1,
-            forkAngleRange          = 0,
-            worldStartPosition      = vec2.add(polys[1], {0.0, -0.0625}),
-            worldEndPosition        = vec2.add(polys[2], {0.0, -0.0625}),
-        }
-    )
-
-    table.insert(lines,{
-            color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5})), 255),
-            forks                   = 0,
-            minDisplacement         = 0.5,
-            displacement            = 0,
-            width                   = 1,
-            forkAngleRange          = 0,
-            worldStartPosition      = vec2.add(polys[2], {0.0625, -0.125}),
-            worldEndPosition        = vec2.add(polys[3], {0.0625, 0.125}),
-        }
-    )
-
-    table.insert(lines,{
-        color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5})), 255),
-        forks                   = 0,
-        minDisplacement         = 0.5,
-        displacement            = 0,
-        width                   = 1,
-        forkAngleRange          = 0,
-        worldStartPosition      = vec2.add(polys[3], {0.0, 0.0625}),
-        worldEndPosition        = vec2.add(polys[4], {0.0, 0.0625}),
-    })
-
-    table.insert(lines,{
-        color                   = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5})), 255),
-        forks                   = 0,
-        minDisplacement         = 0.5,
-        displacement            = 0,
-        width                   = 1,
-        forkAngleRange          = 0,
-        worldStartPosition      = vec2.add(polys[4], {-0.0625, 0.125}),
-        worldEndPosition        = vec2.add(polys[1], {-0.0625, -0.125}),
-    })
-
-    -- lightning beam
-    if math.floor(miner.beaming * 10) / 10 > 0 then
-        table.insert(
-            lines, 
-            {
-                color                  = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,0.5 * miner.beaming})), 255),
-                forks                  = 0,
-                minDisplacement        = 0.25,
-                displacement           = 1,
-                width                  = 6,
-                forkAngleRange         = 0,
-                partStartPosition      = beamStartPart,
-                itemStartPosition      = beamStartPos,
-                worldEndPosition       = aimpos,
-            }
-        )
-        table.insert(
-            lines, 
-            {
-                color                   = mat4.min( mat4.round(mat4.mult(beamcolor, {1,1,1,1 * miner.beaming})), 255 ) ,
-                forks                   = 0,
-                minDisplacement         = 0.1,
-                displacement            = 1,
-                width                   = 1,
-                forkAngleRange          = 0,
-                partStartPosition       = beamStartPart,
-                itemStartPosition       = beamStartPos,
-                worldEndPosition        = aimpos,
-            }
-        )
-    end
-
-    activeItem.setScriptedAnimationParameter("lightning", lines)
+	activeItem.setScriptedAnimationParameter("lightning", lines)
 end
 
 
 function manipulator:updateBeamingAnimation()
-    if math.floor(miner.beaming * 10) / 10 > 0.5 then
-        if not self.anibeamed then
-            animation:play("beaming")
-            self.anibeamed = true
-        end
-        aim.current = aim.current + (math.random(0,10000) - 5000) / 1000
-    elseif self.anibeamed and not animation:isPlaying("beaming") then
-        self.anibeamed = false
-        animation:play("unbeaming")
-    end
+	if math.floor(miner.beaming * 10) / 10 > 0.5 then
+		if not self.anibeamed then
+			animation:play("beaming")
+			self.anibeamed = true
+		end
+		aim.current = aim.current + (math.random(0,10000) - 5000) / 1000
+	elseif self.anibeamed and not animation:isPlaying("beaming") then
+		self.anibeamed = false
+		animation:play("unbeaming")
+	end
 end
