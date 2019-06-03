@@ -81,9 +81,9 @@ function miner:OnPress(layer)
 	elseif mode == 3 then
 		local placing = self:getPlacing()
 		if placing.type == "material" then
-			self:placeMaterial(self.aimpos, true, layer, placing.name)
+			self:placeMaterial(self.aimpos, true, layer, placing.name, placing.hueShift)
 		elseif placing.type == "mod" then
-				self:tileMod(self.aimpos, true, layer, placing.name)
+				self:placeMod(self.aimpos, true, layer, placing.name, placing.hueShift)
 		elseif placing.type == "liquid" then
 			local liquidid = root.liquidId(placing.name)
 			if liquidid then
@@ -303,12 +303,20 @@ end
 --actions (area size is set by miner:setSize(vec2))
 
 function miner:eyedrop(aimpos,layer)
-	local mat = world.material(aimpos, layer)
-	local liquid = world.liquidAt(aimpos)
-	if mat then
-		self:setPlacing({type = "material", name = mat})
+	local mod = world.mod(aimpos, layer)
+	if mod then
+		self:setPlacing({type = "mod", name = mod, hueShift = world.modHueShift(aimpos, layer)})
 		return true
-	elseif liquid and liquid[1] then
+	end
+
+	local mat = world.material(aimpos, layer)
+	if mat then
+		self:setPlacing({type = "material", name = mat, hueShift = world.materialHueShift(aimpos, layer)})
+		return true
+	end
+
+	local liquid = world.liquidAt(aimpos)
+	if liquid and liquid[1] then
 		local liquidname = root.liquidName(liquid[1])
 		self:setPlacing({type = "liquid", name = liquidname})
 		return true
@@ -325,7 +333,9 @@ function miner:paintMaterial(pos, centered, layer, color)
 	end
 end
 
-function miner:tileMod(pos, centered, layer, modName, hueShift, allowOverlap)
+--placers
+
+function miner:placeMod(pos, centered, layer, modName, hueShift, allowOverlap)
 	pos = self:getMinePos(pos, centered)
 
 	for x = 1, self.size[1] do
@@ -336,12 +346,12 @@ function miner:tileMod(pos, centered, layer, modName, hueShift, allowOverlap)
 end
 
 
-function miner:placeMaterial(pos, centered, layer, material)
+function miner:placeMaterial(pos, centered, layer, material, hueShift)
 	pos = self:getMinePos(pos, centered)
 
 	for x = 1, self.size[1] do
 		for y = 1, self.size[2] do
-			world.placeMaterial({pos[1] + x,pos[2] + y}, layer, material, 0, true)
+			world.placeMaterial({pos[1] + x,pos[2] + y}, layer, material, hueShift or 0, true)
 		end
 	end
 end
@@ -356,6 +366,7 @@ function miner:placeLiquid(pos, centered, liquidid)
 	end
 end
 
+--filter
 function miner:filterLiquid(pos, centered, liquidname)
 	pos = self:getMinePos(pos, centered)
 
@@ -368,7 +379,6 @@ function miner:filterLiquid(pos, centered, liquidname)
 		end
 	end
 end
-
 
 function miner:filterMine(pos, centered, layer, material)
 	pos = self:getMinePos(pos, centered)
@@ -395,26 +405,27 @@ function miner:filterMineMod(pos, centered, layer, modname)
 		end
 	end
 	
-	self:mine(listpos, layer)
+	self:mine(listpos, layer, "plantish", 0)
 end
 
-function miner:mineAt(pos, centered, layer)
+--miners
+function miner:mineAt(pos, centered, layer, damageType, damageAmount)
 	pos = self:getMinePos(pos, centered)
 
 	local listpos = jarray()
 	for x = 1, self.size[1] do
 		for y = 1, self.size[2] do
-			local pos = {pos[1] + x,pos[2] + y}
-			if world.material(pos, layer) or world.objectAt(pos) then
+			local pos = {pos[1] + x ,pos[2] + y}
+			if world.material(pos, layer) or world.objectAt(pos) or #world.entityQuery(pos, vec2.add(pos, {0.5,0.5}), {includedTypes = {"plant"}}) > 0 then
 				table.insert(listpos, pos)
 			end
 		end
 	end
-	self:mine(listpos, layer)
+	self:mine(listpos, layer, damageType, damageAmount)
 end
 
-function miner:mine(listpos, layer, harvestlevel)
-	world.damageTiles(listpos, layer, {0,0}, "explosive", 10000, self:getItemDrops())
+function miner:mine(listpos, layer, damageType, damageAmount)
+	world.damageTiles(listpos, layer, mcontroller.position(), damageType or "explosive", damageAmount or 10000, self:getItemDrops())
 end
 
 
