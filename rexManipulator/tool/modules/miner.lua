@@ -404,8 +404,8 @@ function miner:mineAt(pos, centered, layer)
 	local listpos = jarray()
 	for x = 1, self.size[1] do
 		for y = 1, self.size[2] do
-			local pos = {pos[1] + x - 0.5,pos[2] + y - 0.5}
-			if world.material(pos, layer) then
+			local pos = {pos[1] + x,pos[2] + y}
+			if world.material(pos, layer) or world.objectAt(pos) then
 				table.insert(listpos, pos)
 			end
 		end
