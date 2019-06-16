@@ -4,8 +4,8 @@
   "friendlyName" : "RexmecK Advanced Manipulator",
   "link" : "steam://url/CommunityFilePage/1710048726",
   "name" : "AdvMM",
+  "priority" : 100000,
   "steamContentId" : "1710048726",
   "tags" : "Crafting and Building|In-Game Tools",
-  "version" : "Alpha 3",
-  "priority" : 100000
+  "version" : "Alpha 4"
 }
