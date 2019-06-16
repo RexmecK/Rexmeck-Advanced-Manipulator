@@ -5,12 +5,24 @@ local oldUpdate = update or function() end
 require "/scripts/vec2.lua"
 
 function init()
-	oldInit()
+	local result, ret = pcall(oldInit)
+
+	if not result then
+		sb.logError(tostring(ret))
+		oldInit = function() end
+	end
+
 end
 
 function update(...)
 	local lines = status.statusProperty("rexManipulatorLines", {})
-	oldUpdate(...)
+	
+	local result, ret = pcall(oldUpdate, ...)
+	if not result then
+		sb.logError(tostring(ret))
+		oldUpdate = function() end
+	end
+
 	if lines and player.id() and world.entityExists(player.id()) then
 		local playerPos = world.entityPosition(player.id()) 
 		for i,v in pairs(lines) do

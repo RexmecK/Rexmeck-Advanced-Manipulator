@@ -90,8 +90,7 @@ function manipulator:updateFX(dt)
 				displacement           = 1,
 				width                  = 1,
 				forkAngleRange         = 0,
-				partStartPosition      = beamStartPart,
-				itemStartPosition      = beamStartPos,
+				worldStartPosition      = vec2.add(activeItem.handPosition(animator.partPoint(beamStartPart[1], beamStartPart[2])), mcontroller.position()),
 				worldEndPosition       = aimpos,
 			}
 		)
