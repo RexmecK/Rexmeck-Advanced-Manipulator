@@ -52,6 +52,12 @@ function manipulatorCore:update(dt, fireMode, shift, moves)
 	self:updateCursor()
 
 	self.InterfaceCooldown = math.max(self.InterfaceCooldown - dt, 0)
+	
+	if shift then
+		if moves.up and fireMode ~= "none" then
+			self:openInterface()
+		end
+	end
 
 	if type(manipulator) == "table" and type(manipulator.update) == "function" then
 		manipulator:update(dt, fireMode, shift, moves)
@@ -71,12 +77,7 @@ function manipulatorCore:activate(fireMode, shift)
 	if type(manipulator) == "table" and type(manipulator.activate) == "function" then
 		manipulator:activate(fireMode, shift)
 	end
-	
-	if shift then
-		if fireMode == "primary" then
-			self:openInterface()
-		end
-	end
+
 end
 
 --

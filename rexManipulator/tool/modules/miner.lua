@@ -33,7 +33,7 @@ function miner:update(dt, fireMode, shift, moves)
 	if self.snap[1] then self.aimpos[1] = self.snap[1] end -- some refactorings could do maybe later
 	if self.snap[2] then self.aimpos[2] = self.snap[2] end
 	
-	if not shift or self.activated then
+	if fireMode ~= "none" and not moves.up then
 		self.activated = true
 		if shift then
 			if not self.startSnap then self.startSnap = self.aimpos end
