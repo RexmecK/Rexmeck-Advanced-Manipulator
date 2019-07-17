@@ -50,9 +50,6 @@ selfItem = {classes = {},toCondense = false,condensedClasses = {},rootDirectory 
 ]]
 
 function init()	
-	-- for local fx ui
-	message.setHandler("isLocal", function(_, loc) return loc end )
-	activeItem.setScriptedAnimationParameter("entityID", activeItem.ownerEntityId())
 
 	-- getting local directory of the item
 	local ownitem = root.itemConfig({name = item.name(), count = 1})

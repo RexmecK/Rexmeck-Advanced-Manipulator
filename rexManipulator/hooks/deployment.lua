@@ -1,12 +1,17 @@
 local oldInit = init or function() end
 local oldUpdate = update or function() end
-
+local clearDrawables = function() end
+local cleared = false
 
 require "/scripts/vec2.lua"
 
 function init()
 	local result, ret = pcall(oldInit)
-
+	clearDrawables = localAnimator.clearDrawables
+	localAnimator.clearDrawables = function()
+		cleared = true
+		clearDrawables()
+	end
 	if not result then
 		sb.logError(tostring(ret))
 		oldInit = function() end
@@ -22,7 +27,9 @@ function update(...)
 		sb.logError(tostring(ret))
 		oldUpdate = function() end
 	end
-
+	if not cleared then
+		clearDrawables()
+	end
 	if lines and player.id() and world.entityExists(player.id()) then
 		local playerPos = world.entityPosition(player.id()) 
 		for i,v in pairs(lines) do
@@ -37,4 +44,5 @@ function update(...)
 			)
 		end
 	end
+	cleared = false
 end

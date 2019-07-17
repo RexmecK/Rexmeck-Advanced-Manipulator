@@ -6,7 +6,7 @@ manipulatorRequire("sprites.lua")
 
 function math.round(x)
 	if x%2 ~= 0.5 then
-	  return math.floor(x+0.5)
+		return math.floor(x+0.5)
 	end
 	return x-0.5
 end
@@ -100,7 +100,7 @@ function manipulator:updateFX(dt)
 	local mineSize = miner:getSize()
 	if not beamStartPart then beamStartPos = {0,0} end
 
-	if miner.mode ~= 2 then
+	if miner.mode ~= 2 and miner.mode ~= 5 then
 		miner:setColor( 
 			mat4.min(mat4.round(mat4.mult(hueColor, {1,1,1,1})), 255)
 		)
@@ -117,8 +117,21 @@ function manipulator:updateFX(dt)
 				displacement           = 1,
 				width                  = 1,
 				forkAngleRange         = 0,
-				worldStartPosition      = vec2.add(activeItem.handPosition(animator.partPoint(beamStartPart[1], beamStartPart[2])), mcontroller.position()),
+				worldStartPosition     = vec2.add(activeItem.handPosition(animator.partPoint(beamStartPart[1], beamStartPart[2])), mcontroller.position()),
 				worldEndPosition       = aimpos,
+			}
+		)
+		table.insert(
+			lines, 
+			{
+				color                  = mat4.min( mat4.round(mat4.mult(hueColor, {1,1,1,1 * miner.beaming})), 255),
+				forks                  = 0,
+				minDisplacement        = 0.25,
+				displacement           = 0,
+				width                  = 4* miner.beaming,
+				forkAngleRange         = 0,
+				worldStartPosition     = vec2.add(aimpos, vec2.rotate({-0.25 * miner.beaming,0}, (os.clock() * math.pi))),
+				worldEndPosition       = vec2.add(aimpos, vec2.rotate({0.25 * miner.beaming,0}, (os.clock() * math.pi))),
 			}
 		)
 	end

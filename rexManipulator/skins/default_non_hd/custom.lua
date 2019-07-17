@@ -96,6 +96,19 @@ function manipulator:updateFX(dt)
 				worldEndPosition       = aimpos,
 			}
 		)
+		table.insert(
+			lines, 
+			{
+				color                  = mat4.min( mat4.round(mat4.mult(beamSecondaryColor, {1,1,1,1 * miner.beaming})), 255),
+				forks                  = 0,
+				minDisplacement        = 0.25,
+				displacement           = 0,
+				width                  = 4* miner.beaming,
+				forkAngleRange         = 0,
+				worldStartPosition     = vec2.add(aimpos, vec2.rotate({-0.25 * miner.beaming,0}, (os.clock() * math.pi))),
+				worldEndPosition       = vec2.add(aimpos, vec2.rotate({0.25 * miner.beaming,0}, (os.clock() * math.pi))),
+			}
+		)
 	end
 
 	activeItem.setScriptedAnimationParameter("lightning", lines)
