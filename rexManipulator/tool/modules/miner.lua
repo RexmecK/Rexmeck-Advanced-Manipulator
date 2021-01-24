@@ -113,7 +113,7 @@ function miner:OnPress(layer)
 end
 
 function miner:uninit()
-	status.setStatusProperty("rexManipulatorLines", {})
+	world.sendEntityMessage(player.id(), "rexManipulatorLines", {})
 end
 
 --preferred properties
@@ -544,7 +544,7 @@ function miner:updateFX(dt)
 		endPosition        = vec2.add(polys[1], {-0.0625, -0.125}),
 	})
 
-	status.setStatusProperty("rexManipulatorLines", localLines)
+	world.sendEntityMessage(player.id(), "rexManipulatorLines", localLines)
 
 end
 

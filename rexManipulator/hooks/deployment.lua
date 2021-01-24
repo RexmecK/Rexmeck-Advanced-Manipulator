@@ -5,6 +5,8 @@ local cleared = false
 
 require "/scripts/vec2.lua"
 
+local rexManipulatorLines
+
 function init()
 	local result, ret = pcall(oldInit)
 	clearDrawables = localAnimator.clearDrawables
@@ -16,11 +18,16 @@ function init()
 		sb.logError(tostring(ret))
 		oldInit = function() end
 	end
-
+	message.setHandler(
+		"rexManipulatorLines", 
+		function(_, loc, t) if not loc then return end
+			rexManipulatorLines = t 
+		end
+	)
 end
 
 function update(...)
-	local lines = status.statusProperty("rexManipulatorLines", {})
+	local lines = rexManipulatorLines
 	
 	local result, ret = pcall(oldUpdate, ...)
 	if not result then
